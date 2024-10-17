@@ -2,17 +2,15 @@
 using namespace std;
 #include <vector>
 #include "../include/NearestNeighbours.h"
+#include "../include/FileReader.h"
 
 int main() {
-    //odleglosci pomiedzy roznymi miastami
-    vector<vector<int>> distanceMatrix = {
-            {-1, 99, 19, 83, 23, 12},
-            {67, -1, 3, 71, 85, 74},
-            {54, 76, -1, 55, 62, 78},
-            {32, 29, 68, -1, 76, 14},
-            {20, 51, 84, 68, -1, 93},
-            {96, 38, 82, 24, 9, -1}
-    };
+    string filename = "C:\\Users\\Justine\\Desktop\\studia\\5sem\\algorytmy\\test\\test\\data\\matrix_6x6.atsp"; //nazwa pliku
+
+    //wczytujemy macierz z pliku
+    FileReader fileReader(filename);
+    vector<vector<int>> distanceMatrix = fileReader.getDistanceMatrix();
+
     //obiekt klasy NearestNeighbours
     NearestNeighbours nearestNeighbours(distanceMatrix);
     int startCity = 0;

@@ -6,4 +6,6 @@ set(CMAKE_EXE_LINKER_FLAGS "-static")
 
 add_executable(test src/main.cpp
         src/NearestNeighbours.cpp
-        headers/NearestNeighbours.h)
+        include/NearestNeighbours.h
+        src/FileReader.cpp
+        include/FileReader.h)
