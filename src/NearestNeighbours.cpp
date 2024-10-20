@@ -3,6 +3,7 @@
 //
 
 #include <limits>
+#include <iostream>
 #include "../include/NearestNeighbours.h"
 using namespace std;
 //konstruktor
@@ -26,29 +27,31 @@ int NearestNeighbours::findNearestNeighbor(int currentCity, const vector<bool>& 
     return nearestCity;
 }
 //szukanie najkrotszej drogi
-vector<int> NearestNeighbours::findShortestPath(int startCity, int &totalDistance){
-    int n = distanceMatrix.size();
-    vector<int> tour;  //droga
-    vector<bool> visited(n, false); //odwiedzone wierzcholki
-    totalDistance = 0; //dlugosc najkrotszej trasy
+int NearestNeighbours::findShortestPath(){
+    int totalDistance = INT_MAX;
+    for(int startCity = 0; startCity < distanceMatrix.size(); startCity++){
+        int n = distanceMatrix.size();
+        vector<bool> visited(n, false); //odwiedzone wierzcholki
+        int shortestDistance = 0; //dlugosc najkrotszej trasy
 
-    int currentCity = startCity; //ustawiamy poczatkowy wierzcholek
-    tour.push_back(currentCity);
-    visited[currentCity] = true;
+        int currentCity = startCity; //ustawiamy poczatkowy wierzcholek
+        visited[currentCity] = true;
 
-    for(int i = 1; i < n; i++){
-        int nextCity = findNearestNeighbor(currentCity, visited);
-        if(nextCity != -1){
-            tour.push_back(nextCity);
-            visited[nextCity] = true;
-            totalDistance += distanceMatrix[currentCity][nextCity];
-            currentCity = nextCity;
+        for(int i = 1; i < n; i++){
+            int nextCity = findNearestNeighbor(currentCity, visited);
+            if(nextCity != -1){
+                visited[nextCity] = true;
+                shortestDistance += distanceMatrix[currentCity][nextCity];
+                currentCity = nextCity;
+            }
+        }
+
+        // Powrót do miasta początkowego
+        shortestDistance += distanceMatrix[currentCity][startCity]; // Dodajemy odległość powrotu do startCity
+
+        if(shortestDistance < totalDistance){
+            totalDistance = shortestDistance;
         }
     }
-
-    // Powrót do miasta początkowego
-    totalDistance += distanceMatrix[currentCity][startCity]; // Dodajemy odległość powrotu do startCity
-    tour.push_back(startCity); //konczymy sciezke miastem poczatkowym
-
-    return tour;
+    return totalDistance;
 }
