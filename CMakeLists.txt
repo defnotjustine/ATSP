@@ -12,4 +12,8 @@ add_executable(test src/main.cpp
         src/ConfigReader.cpp
         include/ConfigReader.h
         src/MatrixGenerator.cpp
-        include/MatrixGenerator.h)
+        include/MatrixGenerator.h
+        src/BruteForce.cpp
+        include/BruteForce.h
+        src/RandomSearch.cpp
+        include/RandomSearch.h)

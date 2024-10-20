@@ -5,6 +5,8 @@
 #include "../include/FileReader.h"
 #include "../include/ConfigReader.h"
 #include "../include/MatrixGenerator.h"
+#include "../include/BruteForce.h"
+#include "../include/RandomSearch.h"
 
 using namespace std;
 
@@ -36,10 +38,15 @@ int main() {
     FileReader fileReader(filePath);
     vector<vector<int>> distanceMatrix = fileReader.getDistanceMatrix();
 
-    //obiekt klasy NearestNeighbours
+    //obiekt klas
     NearestNeighbours nearestNeighbours(distanceMatrix);
-    int startCity = 0;
-    int shortestPath = nearestNeighbours.findShortestPath();
+    BruteForce bruteForce(distanceMatrix);
+    RandomSearch randomSearch(distanceMatrix);
+    //int startCity = 0;
+    //int shortestPath = nearestNeighbours.findShortestPath();
+    //int shortestPath = bruteForce.findShortestPath();
+    int shortestPath = randomSearch.findShortestPath();
+
     cout << "Dlugosc najkrotszej trasy: " << shortestPath << endl;
     //wynik - najkrotsza trasa
 //    for (int i = 0; i < config.getRepeatCount(); i++){
