@@ -1,0 +1,11 @@
+# Parametry sterujące
+repeat_count = 5                    # liczba powtórzeń wyszukiwania
+instance_size = 4                   # rozmiar instancji (liczba miast)
+optimal_value = 150                 # wartość optymalna (dla testów)
+generate_random_matrix = false      # czy generować losową macierz?
+input_matrix_file = "matrix_6x6.astp"     # plik wejściowy z gotową macierzą
+output_file = "output.txt"          # plik wyjściowy
+
+# Dodatkowe parametry
+matrix_min_value = 1                # minimalna wartość w macierzy (dla generowania losowej macierzy)
+matrix_max_value = 100              # maksymalna wartość w macierzy (dla generowania losowej macierzy)

@@ -8,4 +8,8 @@ add_executable(test src/main.cpp
         src/NearestNeighbours.cpp
         include/NearestNeighbours.h
         src/FileReader.cpp
-        include/FileReader.h)
+        include/FileReader.h
+        src/ConfigReader.cpp
+        include/ConfigReader.h
+        src/MatrixGenerator.cpp
+        include/MatrixGenerator.h)

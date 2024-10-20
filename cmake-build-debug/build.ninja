@@ -67,6 +67,18 @@ build CMakeFiles/test.dir/src/FileReader.cpp.obj: CXX_COMPILER__test_unscanned_D
   OBJECT_DIR = CMakeFiles\test.dir
   OBJECT_FILE_DIR = CMakeFiles\test.dir\src
 
+build CMakeFiles/test.dir/src/ConfigReader.cpp.obj: CXX_COMPILER__test_unscanned_Debug C$:/Users/Justine/Desktop/studia/5sem/algorytmy/test/test/src/ConfigReader.cpp || cmake_object_order_depends_target_test
+  DEP_FILE = CMakeFiles\test.dir\src\ConfigReader.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\test.dir
+  OBJECT_FILE_DIR = CMakeFiles\test.dir\src
+
+build CMakeFiles/test.dir/src/MatrixGenerator.cpp.obj: CXX_COMPILER__test_unscanned_Debug C$:/Users/Justine/Desktop/studia/5sem/algorytmy/test/test/src/MatrixGenerator.cpp || cmake_object_order_depends_target_test
+  DEP_FILE = CMakeFiles\test.dir\src\MatrixGenerator.cpp.obj.d
+  FLAGS = -g -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles\test.dir
+  OBJECT_FILE_DIR = CMakeFiles\test.dir\src
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target test
@@ -75,7 +87,7 @@ build CMakeFiles/test.dir/src/FileReader.cpp.obj: CXX_COMPILER__test_unscanned_D
 #############################################
 # Link the executable test.exe
 
-build test.exe: CXX_EXECUTABLE_LINKER__test_Debug CMakeFiles/test.dir/src/main.cpp.obj CMakeFiles/test.dir/src/NearestNeighbours.cpp.obj CMakeFiles/test.dir/src/FileReader.cpp.obj
+build test.exe: CXX_EXECUTABLE_LINKER__test_Debug CMakeFiles/test.dir/src/main.cpp.obj CMakeFiles/test.dir/src/NearestNeighbours.cpp.obj CMakeFiles/test.dir/src/FileReader.cpp.obj CMakeFiles/test.dir/src/ConfigReader.cpp.obj CMakeFiles/test.dir/src/MatrixGenerator.cpp.obj
   FLAGS = -g
   LINK_FLAGS = -static
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32

@@ -1,0 +1,67 @@
+//
+// Created by Justine on 18.10.2024.
+//
+
+#include "../include/ConfigReader.h"
+#include <fstream>
+#include <sstream>
+#include <stdexcept>
+
+using namespace std;
+
+ConfigReader::ConfigReader(const string &fileName) : fileName(fileName) {}
+
+void ConfigReader::loadConfig() {
+    ifstream file(fileName);
+    if (!file.is_open()) {
+        throw runtime_error("Nie udalo sie otworzyc pliku konfiguracyjnego " + fileName);
+    }
+    string line;
+    while (getline(file, line)) {
+        //pomijanie komentarzy (#)
+        if (line.empty() || line[0] == '#') {
+            continue;
+        }
+
+        //wyszukiwanie klucza i wartosci
+        istringstream iss(line);
+        string key, value;
+        if (getline(iss, key, '=') && getline(iss, value)) {
+            configValues[trim(key)] = trim(value);
+        }
+    }
+
+    file.close();
+}
+    //funkcje pomocnicze
+    bool ConfigReader::isGenerateRandom() const{
+        return configValues.at("generate_random_matrix") == "true";
+
+    }
+    int ConfigReader::getMaxValue() const {
+        return stoi(configValues.at("matrix_min_value"));
+    }
+    int ConfigReader::getMinValue() const {
+        return stoi(configValues.at("matrix_min_value"));
+    }
+    int ConfigReader::getInstanceSize() const {
+        return stoi(configValues.at("insance_size"));
+    }
+    string ConfigReader::getInputFile() const {
+        return configValues.at("input_matrix_file");
+    }
+    int ConfigReader::getRepeatCount() const {
+        return stoi(configValues.at("repeat_count"));
+
+    }
+    string ConfigReader::getOutputFile() const {
+        return configValues.at("output_file");
+    }
+
+    //usuwanie spacji
+    string ConfigReader::trim(const string &str) {
+        size_t first = str.find_first_not_of(' ');
+        size_t last = str.find_last_not_of(' ');
+        return str.substr(first, last - first + 1);
+    }
+

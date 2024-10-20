@@ -12,7 +12,7 @@ using namespace std;
 class NearestNeighbours {
 public:
     NearestNeighbours(const vector<vector<int>> &distanceMatrix);
-    vector<int> findShortestPath(int startCity, int &totalDistance);
+    int findShortestPath();
 
 private:
     vector<vector<int>> distanceMatrix;
