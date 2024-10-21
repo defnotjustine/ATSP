@@ -16,4 +16,6 @@ add_executable(test src/main.cpp
         src/BruteForce.cpp
         include/BruteForce.h
         src/RandomSearch.cpp
-        include/RandomSearch.h)
+        include/RandomSearch.h
+        src/MatrixGenerator.cpp
+        include/MatrixGenerator.h)

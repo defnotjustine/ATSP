@@ -36,18 +36,29 @@ int main() {
     string fileName = "matrix_6x6.atsp";
     string filePath = basePath+fileName;
     FileReader fileReader(filePath);
-    vector<vector<int>> distanceMatrix = fileReader.getDistanceMatrix();
+    MatrixGenerator matrixGenerator(4);
+    //vector<vector<int>> distanceMatrix = fileReader.getDistanceMatrix();
+    vector<vector<int>> distanceMatrix = matrixGenerator.generateSymmetricMatrix();
+
 
     //obiekt klas
     NearestNeighbours nearestNeighbours(distanceMatrix);
     BruteForce bruteForce(distanceMatrix);
     RandomSearch randomSearch(distanceMatrix);
     //int startCity = 0;
-    //int shortestPath = nearestNeighbours.findShortestPath();
+    int shortestPath = nearestNeighbours.findShortestPath();
     //int shortestPath = bruteForce.findShortestPath();
-    int shortestPath = randomSearch.findShortestPath();
+    //int shortestPath = randomSearch.findShortestPath();
 
     cout << "Dlugosc najkrotszej trasy: " << shortestPath << endl;
+    // Wyświetlamy symetryczną macierz
+    std::cout << "Symetryczna macierz odleglosci:" << std::endl;
+    for (const auto& row : distanceMatrix) {
+        for (int value : row) {
+            std::cout << value << "\t";
+        }
+        std::cout << std::endl;
+    }
     //wynik - najkrotsza trasa
 //    for (int i = 0; i < config.getRepeatCount(); i++){
 //        vector<int> tour = nearestNeighbours.findShortestPath(startCity, totalDistance);
