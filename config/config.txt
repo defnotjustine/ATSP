@@ -1,11 +1,13 @@
 # Parametry sterujące
+algorithm = 1                       # 1 - bruteForce 2 - nearestNeighbours 3 - random
+matrix_max_value = 100
+matrix_min_value = 1
 repeat_count = 5                    # liczba powtórzeń wyszukiwania
-instance_size = 4                   # rozmiar instancji (liczba miast)
+instance_size = 8                   # rozmiar instancji (liczba miast)
 optimal_value = 150                 # wartość optymalna (dla testów)
-generate_random_matrix = false      # czy generować losową macierz?
-input_matrix_file = "matrix_6x6.astp"     # plik wejściowy z gotową macierzą
-output_file = "output.txt"          # plik wyjściowy
-
-# Dodatkowe parametry
-matrix_min_value = 1                # minimalna wartość w macierzy (dla generowania losowej macierzy)
-matrix_max_value = 100              # maksymalna wartość w macierzy (dla generowania losowej macierzy)
+# czy generować losową macierz?
+generate_random_matrix = true
+# plik wejściowy z gotową macierzą
+input_matrix_file = ../data/matrix_6x6.atsp
+output_file = ../build/output.csv
+symmetrical = true

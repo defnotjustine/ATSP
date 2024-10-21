@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <chrono>
+#include <iomanip>
 #include "../include/NearestNeighbours.h"
 #include "../include/FileReader.h"
 #include "../include/ConfigReader.h"
@@ -12,71 +14,92 @@ using namespace std;
 
 int main() {
 
-//    //wczytanie konfiguracji
-//    ConfigReader config("C:\\Users\\Justine\\Desktop\\studia\\5sem\\algorytmy\\test\\test\\config\\config.txt");
-//    config.loadConfig();
-//
-//    //przechowujemy macierz odleglosci
-//    vector<vector<int>> distanceMatrix;
-//    //czy generujemy losowa macierz?
-//    if(config.isGenerateRandom()){
-//        MatrixGenerator generator;
-//        generator.generateRandomMatrix(config.getInstanceSize(), config.getMinValue(), config.getMaxValue());
-//    } else{
-//        //wczytanie macierzy z pliku
-//        FileReader fileReader(config.getInputFile());
-//        distanceMatrix = fileReader.getDistanceMatrix(); //????????
-//    }
+    //wczytanie konfiguracji
+    ConfigReader config("../config/config.txt");
+    config.loadConfig();
 
-//-------------------------------------
-    //string filename = "C:\\Users\\Justine\\Desktop\\studia\\5sem\\algorytmy\\test\\test\\data\\matrix_6x6.atsp"; //nazwa pliku
+    // Otwarcie pliku CSV do zapisu
+    ofstream csvFile;
+    csvFile.open(config.getOutputFile(), ios::app);  // otwórz plik w trybie dopisania
 
-    //wczytujemy macierz z pliku
-    string basePath = "../data/";
-    string fileName = "matrix_6x6.atsp";
-    string filePath = basePath+fileName;
-    FileReader fileReader(filePath);
-    MatrixGenerator matrixGenerator(4);
-    //vector<vector<int>> distanceMatrix = fileReader.getDistanceMatrix();
-    vector<vector<int>> distanceMatrix = matrixGenerator.generateSymmetricMatrix();
+    // Sprawdź, czy plik się otworzył
+    if (!csvFile.is_open()) {
+        cerr << "Nie można otworzyć pliku CSV do zapisu!" << endl;
+        return 1;
+    }
 
+    //przechowujemy macierz odleglosci
+    vector<vector<int>> distanceMatrix;
+
+    int citiesCount = config.getInstanceSize(); //ilosc miast/instancji
+    MatrixGenerator generator(citiesCount);
+
+    //czy generujemy losowa macierz?
+    if(config.isGenerateRandom()){
+        if(config.isSymmetrical()){
+            distanceMatrix = generator.generateSymmetricMatrix();
+        } else distanceMatrix = generator.generateAsymmetricMatrix();
+    }else{
+        //wczytanie macierzy z pliku
+        string basePath = "../data/";
+        //string fileName = "matrix_6x6.atsp";
+        string fileName = config.getInputFile();
+        string filePath = basePath+fileName;
+        FileReader fileReader(filePath);
+        distanceMatrix = fileReader.getDistanceMatrix(); //????????
+    }
+
+// Wyświetlamy macierz
+    std::cout << "Macierz odleglosci:" << std::endl;
+    for (const auto &row: distanceMatrix) {
+        for (int value: row) {
+            std::cout << value << "\t";
+        }
+        std::cout << std::endl;
+    }
 
     //obiekt klas
     NearestNeighbours nearestNeighbours(distanceMatrix);
     BruteForce bruteForce(distanceMatrix);
     RandomSearch randomSearch(distanceMatrix);
-    //int startCity = 0;
-    int shortestPath = nearestNeighbours.findShortestPath();
-    //int shortestPath = bruteForce.findShortestPath();
-    //int shortestPath = randomSearch.findShortestPath();
-
-    cout << "Dlugosc najkrotszej trasy: " << shortestPath << endl;
-    // Wyświetlamy symetryczną macierz
-    std::cout << "Symetryczna macierz odleglosci:" << std::endl;
-    for (const auto& row : distanceMatrix) {
-        for (int value : row) {
-            std::cout << value << "\t";
+    int iterations = config.getRepeatCount(); //liczba powtorzen
+    chrono::duration<double> avgDuration;
+    chrono::duration<double> totalDuration;
+    for(int i = 0; i < iterations; ++i) {
+        cout << "Iteracja nr" << i + 1 << endl;
+        int shortestPath;
+        chrono::duration<double> durationBrute;
+        if (config.algorithmType() == 1) {
+            auto start = chrono::high_resolution_clock::now();
+            shortestPath = bruteForce.findShortestPath();
+            auto end = chrono::high_resolution_clock::now();
+            durationBrute = end - start;
+            totalDuration += durationBrute;
+        } else if (config.algorithmType() == 2) {
+            auto start = chrono::high_resolution_clock::now();
+            shortestPath = nearestNeighbours.findShortestPath();
+            auto end = chrono::high_resolution_clock::now();
+            durationBrute = end - start;
+            totalDuration += durationBrute;
+        } else if (config.algorithmType() == 3) {
+            auto start = chrono::high_resolution_clock::now();
+            shortestPath = randomSearch.findShortestPath();
+            auto end = chrono::high_resolution_clock::now();
+            durationBrute = end - start;
+            totalDuration += durationBrute;
         }
-        std::cout << std::endl;
+
+        // Zapisz wyniki do pliku CSV
+        csvFile << fixed << setprecision(6) << durationBrute.count() << endl;
+        cout << "Dlugosc najkrotszej trasy: " << shortestPath << endl;
+        //cout << "Czas wykonania algorytmu: " << fixed << setprecision(6) << durationBrute.count() << " ms" << endl;
     }
-    //wynik - najkrotsza trasa
-//    for (int i = 0; i < config.getRepeatCount(); i++){
-//        vector<int> tour = nearestNeighbours.findShortestPath(startCity, totalDistance);
-//        cout << "Powtorzenie " << i + 1 << ": Najkrotsza trasa: ";
-//        //iterujemy po wszystkich miastach w najkrotszej trasie i wypisujemy
-//        for(int city : tour){
-//            cout << city << " ";
-//        }
-//        cout << "Dlugosc trasy: " << totalDistance << endl;
-//    }
 
-//
-//    //zapis wynikow do pliku
-//    ofstream outputFile(config.getOutputFile());
-//    outputFile << totalDistance << endl;
-//    outputFile.close();
+    avgDuration = totalDuration / iterations;
+    cout << "Sredni czas wykonania algorytmu: " << fixed << setprecision(6) << avgDuration.count() << " ms" << endl;
 
+    // Zamknięcie pliku CSV
+    csvFile.close();
 
     return 0;
-
 }

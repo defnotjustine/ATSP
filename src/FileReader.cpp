@@ -3,9 +3,11 @@
 //
 
 #include "../include/FileReader.h"
+#include "../include/ConfigReader.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>
+
 
 using namespace std;
 
@@ -13,12 +15,13 @@ using namespace std;
 FileReader::FileReader(const std::string &fileName) {
     readFile(fileName);
 }
-
+//ConfigReader config("C:\\Users\\Justine\\Desktop\\studia\\5sem\\algorytmy\\test\\test\\config\\config.txt");
 //Funkcja do wczytywania danych z pliku
 void FileReader::readFile(const string &fileName) {
     ifstream file(fileName);
 
     if(!file){
+        //cout << "sciezka do pliku" << config.getInputFile() << endl;
         cerr << "Nie udalo sie otworzyc plik " << fileName << endl;
         exit(1);//wyjscie z programu
     }

@@ -3,8 +3,6 @@
 //
 
 #include "../include/MatrixGenerator.h"
-#include <cstdlib>
-#include <ctime>
 
 using namespace std;
 
@@ -12,7 +10,7 @@ using namespace std;
 MatrixGenerator::MatrixGenerator(int size) : size(size) {
     srand(time(nullptr)); //inicjalizacja generatora losowego
 }
-
+ConfigReader config("C:\\Users\\Justine\\Desktop\\studia\\5sem\\algorytmy\\test\\test\\config\\config.txt");
 //generacja symetrycznej macierzy
 vector<vector<int>> MatrixGenerator::generateSymmetricMatrix() {
     vector<vector<int>> matrix(size, vector<int>(size, 0));
@@ -47,7 +45,6 @@ vector<vector<int>> MatrixGenerator::generateAsymmetricMatrix() {
     }
     return matrix;
 }
-
 //generacja losowej wartosci odleglosci(przyjelam zakres 1 - 100)
 int MatrixGenerator::generateRandomDistance() {
     return rand() % 100 + 1;
