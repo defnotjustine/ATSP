@@ -7,6 +7,7 @@
 
 #include <string>
 #include <map>
+#include <iostream>
 
 using namespace std;
 
@@ -19,6 +20,8 @@ public:
 
     //dostep do poszczegolnych parametrow
     bool isGenerateRandom() const;
+    bool isSymmetrical() const;
+    int algorithmType() const;
     int getInstanceSize() const;
     int getMinValue() const;
     int getMaxValue() const;

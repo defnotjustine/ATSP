@@ -6,6 +6,10 @@
 #define TEST_MATRIXGENERATOR_H
 
 #include <vector>
+#include "../include/ConfigReader.h"
+#include <cstdlib>
+#include <ctime>
+#include <iostream>
 
 using namespace std;
 

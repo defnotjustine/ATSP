@@ -36,16 +36,21 @@ void ConfigReader::loadConfig() {
     //funkcje pomocnicze
     bool ConfigReader::isGenerateRandom() const{
         return configValues.at("generate_random_matrix") == "true";
-
+    }
+    bool ConfigReader::isSymmetrical() const{
+        return configValues.at("symmetrical") == "true";
     }
     int ConfigReader::getMaxValue() const {
-        return stoi(configValues.at("matrix_min_value"));
+        return stoi(configValues.at("matrix_max_value"));
+    }
+    int ConfigReader::algorithmType() const{
+    return stoi(configValues.at("algorithm"));
     }
     int ConfigReader::getMinValue() const {
         return stoi(configValues.at("matrix_min_value"));
     }
     int ConfigReader::getInstanceSize() const {
-        return stoi(configValues.at("insance_size"));
+        return stoi(configValues.at("instance_size"));
     }
     string ConfigReader::getInputFile() const {
         return configValues.at("input_matrix_file");
