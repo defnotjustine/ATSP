@@ -8,6 +8,9 @@
 #include <string>
 #include <map>
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include <stdexcept>
 
 using namespace std;
 

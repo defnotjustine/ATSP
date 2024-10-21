@@ -6,6 +6,7 @@
 #define TEST_BRUTEFORCE_H
 
 #include <vector>
+#include <limits>
 
 using namespace std;
 

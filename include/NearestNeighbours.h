@@ -6,8 +6,10 @@
 #define TEST_NEARESTNEIGHBOURS_H
 
 #include <vector>
-using namespace std;
+#include <limits>
+#include <iostream>
 
+using namespace std;
 
 class NearestNeighbours {
 public:

@@ -7,6 +7,8 @@
 
 #include <vector>
 #include <cstdlib> // Dla funkcji rand() i srand()
+#include <limits> // Dla std::numeric_limits
+#include <ctime>  // Dla inicjalizacji generatora losowego time()
 
 class RandomSearch {
 public:

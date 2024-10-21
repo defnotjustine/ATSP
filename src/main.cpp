@@ -12,91 +12,112 @@
 
 using namespace std;
 
-int main() {
+// Funkcja do otwierania pliku CSV
+ofstream openCSVFile(const string& outputFile) {
+    ofstream csvFile(outputFile, ios::app);  // otwórz plik w trybie dopisania
+    if (!csvFile.is_open()) {
+        cerr << "Nie można otworzyc pliku CSV do zapisu!" << endl;
+        exit(1);  // Wyjdź z programu, jeśli nie uda się otworzyć pliku
+    }
+    return csvFile;
+}
 
-    //wczytanie konfiguracji
+// Funkcja do wyświetlania macierzy odległości
+void displayDistanceMatrix(const vector<vector<int>>& distanceMatrix) {
+    cout << "Macierz odleglosci:" << endl;
+    for (const auto& row : distanceMatrix) {
+        for (int value : row) {
+            cout << value << "\t";
+        }
+        cout << endl;
+    }
+}
+
+// Funkcja do wykonania algorytmu i zwrócenia czasu jego wykonania
+chrono::duration<double> executeAlgorithm(int algorithmType,
+                                          BruteForce& bruteForce,
+                                          NearestNeighbours& nearestNeighbours,
+                                          RandomSearch& randomSearch,
+                                          int& shortestPath) {
+    auto start = chrono::high_resolution_clock::now();
+
+    if (algorithmType == 1) {
+        shortestPath = bruteForce.findShortestPath();
+    } else if (algorithmType == 2) {
+        shortestPath = nearestNeighbours.findShortestPath();
+    } else if (algorithmType == 3) {
+        shortestPath = randomSearch.findShortestPath();
+    }
+
+    auto end = chrono::high_resolution_clock::now();
+    return end - start;  // Zwróć czas trwania algorytmu
+}
+
+// Funkcja do obsługi całego procesu
+void runAlgorithm(ConfigReader& config,
+                  const vector<vector<int>>& distanceMatrix,
+                  ofstream& csvFile) {
+
+    // Obiekty klas algorytmów
+    NearestNeighbours nearestNeighbours(distanceMatrix);
+    BruteForce bruteForce(distanceMatrix);
+    RandomSearch randomSearch(distanceMatrix);
+
+    int iterations = config.getRepeatCount();
+    chrono::duration<double> totalDuration;
+
+    for (int i = 0; i < iterations; ++i) {
+        cout << "Iteracja nr " << i + 1 << endl;
+        int shortestPath;
+        chrono::duration<double> iterationDuration = executeAlgorithm(
+                config.algorithmType(), bruteForce, nearestNeighbours, randomSearch, shortestPath
+        );
+
+        totalDuration += iterationDuration;  // Dodaj czas trwania tej iteracji do sumy
+
+        // Zapisz czas trwania iteracji do pliku CSV
+        csvFile << fixed << setprecision(6) << iterationDuration.count() << endl;
+
+        cout << "Dlugosc najkrotszej trasy: " << shortestPath << endl;
+    }
+
+    // Wylicz i wyświetl średni czas
+    chrono::duration<double> avgDuration = totalDuration / iterations;
+    cout << "Sredni czas wykonania algorytmu: " << fixed << setprecision(6)
+         << avgDuration.count() << " ms" << endl;
+}
+
+int main() {
+    // Wczytanie konfiguracji
     ConfigReader config("../config/config.txt");
     config.loadConfig();
 
     // Otwarcie pliku CSV do zapisu
-    ofstream csvFile;
-    csvFile.open(config.getOutputFile(), ios::app);  // otwórz plik w trybie dopisania
+    ofstream csvFile = openCSVFile(config.getOutputFile());
 
-    // Sprawdź, czy plik się otworzył
-    if (!csvFile.is_open()) {
-        cerr << "Nie można otworzyć pliku CSV do zapisu!" << endl;
-        return 1;
-    }
-
-    //przechowujemy macierz odleglosci
+    // Przygotowanie macierzy odległości
     vector<vector<int>> distanceMatrix;
-
-    int citiesCount = config.getInstanceSize(); //ilosc miast/instancji
+    int citiesCount = config.getInstanceSize();
     MatrixGenerator generator(citiesCount);
 
-    //czy generujemy losowa macierz?
-    if(config.isGenerateRandom()){
-        if(config.isSymmetrical()){
+    // Wygeneruj macierz lub wczytaj z pliku
+    if (config.isGenerateRandom()) {
+        if (config.isSymmetrical()) {
             distanceMatrix = generator.generateSymmetricMatrix();
-        } else distanceMatrix = generator.generateAsymmetricMatrix();
-    }else{
-        //wczytanie macierzy z pliku
-        string basePath = "../data/";
-        //string fileName = "matrix_6x6.atsp";
-        string fileName = config.getInputFile();
-        string filePath = basePath+fileName;
+        } else {
+            distanceMatrix = generator.generateAsymmetricMatrix();
+        }
+    } else {
+        string filePath = "../data/" + config.getInputFile();
         FileReader fileReader(filePath);
-        distanceMatrix = fileReader.getDistanceMatrix(); //????????
+        distanceMatrix = fileReader.getDistanceMatrix();
     }
 
-// Wyświetlamy macierz
-    std::cout << "Macierz odleglosci:" << std::endl;
-    for (const auto &row: distanceMatrix) {
-        for (int value: row) {
-            std::cout << value << "\t";
-        }
-        std::cout << std::endl;
-    }
+    // Wyświetlenie macierzy odległości
+    displayDistanceMatrix(distanceMatrix);
 
-    //obiekt klas
-    NearestNeighbours nearestNeighbours(distanceMatrix);
-    BruteForce bruteForce(distanceMatrix);
-    RandomSearch randomSearch(distanceMatrix);
-    int iterations = config.getRepeatCount(); //liczba powtorzen
-    chrono::duration<double> avgDuration;
-    chrono::duration<double> totalDuration;
-    for(int i = 0; i < iterations; ++i) {
-        cout << "Iteracja nr" << i + 1 << endl;
-        int shortestPath;
-        chrono::duration<double> durationBrute;
-        if (config.algorithmType() == 1) {
-            auto start = chrono::high_resolution_clock::now();
-            shortestPath = bruteForce.findShortestPath();
-            auto end = chrono::high_resolution_clock::now();
-            durationBrute = end - start;
-            totalDuration += durationBrute;
-        } else if (config.algorithmType() == 2) {
-            auto start = chrono::high_resolution_clock::now();
-            shortestPath = nearestNeighbours.findShortestPath();
-            auto end = chrono::high_resolution_clock::now();
-            durationBrute = end - start;
-            totalDuration += durationBrute;
-        } else if (config.algorithmType() == 3) {
-            auto start = chrono::high_resolution_clock::now();
-            shortestPath = randomSearch.findShortestPath();
-            auto end = chrono::high_resolution_clock::now();
-            durationBrute = end - start;
-            totalDuration += durationBrute;
-        }
-
-        // Zapisz wyniki do pliku CSV
-        csvFile << fixed << setprecision(6) << durationBrute.count() << endl;
-        cout << "Dlugosc najkrotszej trasy: " << shortestPath << endl;
-        //cout << "Czas wykonania algorytmu: " << fixed << setprecision(6) << durationBrute.count() << " ms" << endl;
-    }
-
-    avgDuration = totalDuration / iterations;
-    cout << "Sredni czas wykonania algorytmu: " << fixed << setprecision(6) << avgDuration.count() << " ms" << endl;
+    // Uruchomienie algorytmu
+    runAlgorithm(config, distanceMatrix, csvFile);
 
     // Zamknięcie pliku CSV
     csvFile.close();

@@ -1,11 +1,10 @@
 //
 // Created by Justine on 17.10.2024.
 //
-
-#include <limits>
-#include <iostream>
 #include "../include/NearestNeighbours.h"
+
 using namespace std;
+
 //konstruktor
 //NearestNeighbours::NearestNeighbours(const vector<vector<int>> &distanceMatrix) : distanceMatrix(distanceMatrix) {}
 

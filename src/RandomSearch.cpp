@@ -2,8 +2,6 @@
 // Created by Justine on 20.10.2024.
 //
 #include "../include/RandomSearch.h"
-#include <limits> // Dla std::numeric_limits
-#include <ctime>  // Dla inicjalizacji generatora losowego time()
 
 RandomSearch::RandomSearch(const std::vector<std::vector<int>>& distanceMatrix)
         : distanceMatrix(distanceMatrix), minCost(std::numeric_limits<int>::max()) {

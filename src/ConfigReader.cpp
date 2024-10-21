@@ -3,9 +3,6 @@
 //
 
 #include "../include/ConfigReader.h"
-#include <fstream>
-#include <sstream>
-#include <stdexcept>
 
 using namespace std;
 

@@ -3,11 +3,6 @@
 //
 
 #include "../include/FileReader.h"
-#include "../include/ConfigReader.h"
-#include <fstream>
-#include <iostream>
-#include <sstream>
-
 
 using namespace std;
 
