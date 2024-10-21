@@ -1,6 +1,8 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <chrono>
+#include <iomanip>
 #include "../include/NearestNeighbours.h"
 #include "../include/FileReader.h"
 #include "../include/ConfigReader.h"
@@ -46,11 +48,15 @@ int main() {
     BruteForce bruteForce(distanceMatrix);
     RandomSearch randomSearch(distanceMatrix);
     //int startCity = 0;
-    int shortestPath = nearestNeighbours.findShortestPath();
-    //int shortestPath = bruteForce.findShortestPath();
+    //int shortestPath = nearestNeighbours.findShortestPath();
+    auto start = chrono::high_resolution_clock::now();
+    int shortestPath = bruteForce.findShortestPath();
+    auto end = chrono::high_resolution_clock::now();
+    chrono::duration<double> durationBrute = end - start;
     //int shortestPath = randomSearch.findShortestPath();
 
     cout << "Dlugosc najkrotszej trasy: " << shortestPath << endl;
+    cout <<"Czas wykonania algorytmu: " << fixed << setprecision(6) <<durationBrute.count() << "ms" << endl;
     // Wyświetlamy symetryczną macierz
     std::cout << "Symetryczna macierz odleglosci:" << std::endl;
     for (const auto& row : distanceMatrix) {
