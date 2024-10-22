@@ -34,11 +34,11 @@ void ConfigReader::loadConfig() {
     bool ConfigReader::isGenerateRandom() const{
         return configValues.at("generate_random_matrix") == "true";
     }
-    bool ConfigReader::isProgressBar() const{
-        return configValues.at("progress_bar") == "true";
-    }
     bool ConfigReader::isSymmetrical() const{
         return configValues.at("symmetrical") == "true";
+    }
+    bool ConfigReader::isProgressBar() const{
+        return configValues.at("progress_bar") == "true";
     }
     int ConfigReader::getMaxValue() const {
         return stoi(configValues.at("matrix_max_value"));

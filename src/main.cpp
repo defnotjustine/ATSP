@@ -33,6 +33,21 @@ void displayDistanceMatrix(const vector<vector<int>>& distanceMatrix) {
     }
 }
 
+// Funkcja aktualizująca pasek postępu
+void updateProgressBar(int currentInstance, int totalInstances) {
+    int barWidth = 100; // Szerokość paska postępu
+    float progress = static_cast<float>(currentInstance) / totalInstances; // Oblicz postęp
+    int pos = barWidth * progress; // Oblicz liczbę znaków '=' do wyświetlenia w wypełnionej części paska
+
+    cout << "[";
+    for (int i = 0; i < barWidth; ++i) {
+        if (i < pos) cout << "="; // Wypełniona część
+        else cout << " "; // Niewypełniona część
+    }
+    cout << "] " << int(progress * 100) << " %\r"; // Wyświetl procentowy postęp
+    cout.flush(); // Natychmiast wyświetl output, bez buforowania
+}
+
 // Funkcja do wykonania algorytmu i zwrócenia czasu jego wykonania
 chrono::duration<double> executeAlgorithm(int algorithmType,
                                           BruteForce& bruteForce,
@@ -62,8 +77,10 @@ void runAlgorithm(ConfigReader& config,
     chrono::duration<double> totalDuration;
 
     for (int i = 0; i < iterations; ++i) {
+        if(config.isProgressBar()){
+            updateProgressBar(i + 1, iterations);
+        }
         //srand(time(0) + i);  // Dodaj 'i', aby zapewnić różnorodność w krótkim czasie
-
         cout << "Iteracja nr " << i + 1 << endl;
 
         MatrixGenerator generator(citiesCount);
