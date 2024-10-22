@@ -11,3 +11,4 @@ generate_random_matrix = true
 input_matrix_file = ../data/matrix_6x6.atsp
 output_file = ../build/output.csv
 symmetrical = true
+progress_bar = true

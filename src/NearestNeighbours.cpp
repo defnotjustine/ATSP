@@ -6,8 +6,6 @@
 using namespace std;
 
 //konstruktor
-//NearestNeighbours::NearestNeighbours(const vector<vector<int>> &distanceMatrix) : distanceMatrix(distanceMatrix) {}
-
 NearestNeighbours::NearestNeighbours(const vector<vector<int>> &distanceMatrix) : distanceMatrix(distanceMatrix) {}
 
 //szukamy najblizszego sasiada

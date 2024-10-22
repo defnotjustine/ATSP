@@ -10,7 +10,6 @@ using namespace std;
 FileReader::FileReader(const std::string &fileName) {
     readFile(fileName);
 }
-//ConfigReader config("C:\\Users\\Justine\\Desktop\\studia\\5sem\\algorytmy\\test\\test\\config\\config.txt");
 //Funkcja do wczytywania danych z pliku
 void FileReader::readFile(const string &fileName) {
     ifstream file(fileName);

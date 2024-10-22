@@ -21,6 +21,7 @@ public:
     //metoda do wczytywania pliku konf
     void loadConfig();
 
+
     //dostep do poszczegolnych parametrow
     bool isGenerateRandom() const;
     bool isSymmetrical() const;
@@ -31,6 +32,7 @@ public:
     string getInputFile() const;
     string getOutputFile() const;
     int getRepeatCount() const;
+    bool isProgressBar() const;
 
 
 private:

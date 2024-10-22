@@ -87,6 +87,7 @@ void runAlgorithm(ConfigReader& config,
          << avgDuration.count() << " ms" << endl;
 }
 
+
 int main() {
     // Wczytanie konfiguracji
     ConfigReader config("../config/config.txt");
