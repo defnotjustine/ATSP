@@ -77,3 +77,8 @@
 1304	1951	7513350016796478	test.exe	67a4bf05e3e8c3a5
 6	1239	7513350233148900	CMakeFiles/test.dir/src/MatrixGenerator.cpp.obj	6a95f2b6514ee106
 1239	1862	7513350239295957	test.exe	67a4bf05e3e8c3a5
+37	690	7513352426403226	CMakeFiles/test.dir/src/BruteForce.cpp.obj	9ace7124a5680beb
+16	1112	7513352430641949	CMakeFiles/test.dir/src/NearestNeighbours.cpp.obj	fdee13ddcf1a18df
+25	1480	7513352434306989	CMakeFiles/test.dir/src/MatrixGenerator.cpp.obj	6a95f2b6514ee106
+4	1764	7513352437144756	CMakeFiles/test.dir/src/main.cpp.obj	160ea7aa1915e4e4
+1764	2440	7513352443840558	test.exe	67a4bf05e3e8c3a5
