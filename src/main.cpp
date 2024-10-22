@@ -16,7 +16,7 @@ using namespace std;
 ofstream openCSVFile(const string& outputFile) {
     ofstream csvFile(outputFile, ios::app);  // otwórz plik w trybie dopisania
     if (!csvFile.is_open()) {
-        cerr << "Nie można otworzyc pliku CSV do zapisu!" << endl;
+        cerr << "Nie mozna otworzyc pliku CSV do zapisu!" << endl;
         exit(1);  // Wyjdź z programu, jeśli nie uda się otworzyć pliku
     }
     return csvFile;
@@ -55,19 +55,40 @@ chrono::duration<double> executeAlgorithm(int algorithmType,
 
 // Funkcja do obsługi całego procesu
 void runAlgorithm(ConfigReader& config,
-                  const vector<vector<int>>& distanceMatrix,
-                  ofstream& csvFile) {
-
-    // Obiekty klas algorytmów
-    NearestNeighbours nearestNeighbours(distanceMatrix);
-    BruteForce bruteForce(distanceMatrix);
-    RandomSearch randomSearch(distanceMatrix);
+                  const vector<vector<int>>& distanceMatrixFromFile,
+                  ofstream& csvFile, int citiesCount) {
 
     int iterations = config.getRepeatCount();
     chrono::duration<double> totalDuration;
 
     for (int i = 0; i < iterations; ++i) {
+        //srand(time(0) + i);  // Dodaj 'i', aby zapewnić różnorodność w krótkim czasie
+
         cout << "Iteracja nr " << i + 1 << endl;
+
+        MatrixGenerator generator(citiesCount);
+
+        vector<vector<int>> distanceMatrix;
+        // Jeśli generujemy losową macierz, generuj nową przy każdej iteracji
+        if (config.isGenerateRandom()) {
+            if (config.isSymmetrical()) {
+                distanceMatrix = generator.generateSymmetricMatrix();
+            } else {
+                distanceMatrix = generator.generateAsymmetricMatrix();
+            }
+        } else {
+            // Jeśli macierz z pliku, użyj jej bez zmian
+            distanceMatrix = distanceMatrixFromFile;
+        }
+
+        // Wyświetlenie macierzy odległości w każdej iteracji
+        displayDistanceMatrix(distanceMatrix);
+
+        // Obiekty klas algorytmów dla tej iteracji
+        NearestNeighbours nearestNeighbours(distanceMatrix);
+        BruteForce bruteForce(distanceMatrix);
+        RandomSearch randomSearch(distanceMatrix);
+
         int shortestPath;
         chrono::duration<double> iterationDuration = executeAlgorithm(
                 config.algorithmType(), bruteForce, nearestNeighbours, randomSearch, shortestPath
@@ -96,29 +117,20 @@ int main() {
     // Otwarcie pliku CSV do zapisu
     ofstream csvFile = openCSVFile(config.getOutputFile());
 
-    // Przygotowanie macierzy odległości
-    vector<vector<int>> distanceMatrix;
+    // Przygotowanie generatora macierzy
     int citiesCount = config.getInstanceSize();
-    MatrixGenerator generator(citiesCount);
+    //MatrixGenerator generator(citiesCount);
 
-    // Wygeneruj macierz lub wczytaj z pliku
-    if (config.isGenerateRandom()) {
-        if (config.isSymmetrical()) {
-            distanceMatrix = generator.generateSymmetricMatrix();
-        } else {
-            distanceMatrix = generator.generateAsymmetricMatrix();
-        }
-    } else {
+    // Przygotowanie macierzy odległości z pliku (jeśli nie generujemy losowo)
+    vector<vector<int>> distanceMatrixFromFile;
+    if (!config.isGenerateRandom()) {
         string filePath = "../data/" + config.getInputFile();
         FileReader fileReader(filePath);
-        distanceMatrix = fileReader.getDistanceMatrix();
+        distanceMatrixFromFile = fileReader.getDistanceMatrix();
     }
 
-    // Wyświetlenie macierzy odległości
-    displayDistanceMatrix(distanceMatrix);
-
     // Uruchomienie algorytmu
-    runAlgorithm(config, distanceMatrix, csvFile);
+    runAlgorithm(config, distanceMatrixFromFile, csvFile, citiesCount);
 
     // Zamknięcie pliku CSV
     csvFile.close();

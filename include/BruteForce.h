@@ -20,7 +20,7 @@ public:
 
 private:
     vector<vector<int>> distenceMatrix; //przechowujemy macierz odleglosci
-    int minCost;
+    int minCost; //koszt najkrotszej sciezki
     vector<int> shortestPath; //przechowywanie najkrotszej sciezki
     //generowanie permutacji
     void permute(vector<int> &path, int left, int right);
