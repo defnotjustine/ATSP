@@ -40,15 +40,16 @@ void ConfigReader::loadConfig() {
     bool ConfigReader::isProgressBar() const{
         return configValues.at("progress_bar") == "true";
     }
+    int ConfigReader::getMinValue() const {
+    return stoi(configValues.at("matrix_min"));
+    }
     int ConfigReader::getMaxValue() const {
-        return stoi(configValues.at("matrix_max_value"));
+        return stoi(configValues.at("matrix_max"));
     }
     int ConfigReader::algorithmType() const{
-    return stoi(configValues.at("algorithm"));
+        return stoi(configValues.at("algorithm"));
     }
-    int ConfigReader::getMinValue() const {
-        return stoi(configValues.at("matrix_min_value"));
-    }
+
     int ConfigReader::getInstanceSize() const {
         return stoi(configValues.at("instance_size"));
     }

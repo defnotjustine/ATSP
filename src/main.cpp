@@ -84,8 +84,9 @@ void runAlgorithm(ConfigReader& config,
         }
         //srand(time(0) + i);  // Dodaj 'i', aby zapewnić różnorodność w krótkim czasie
         cout << "Iteracja nr " << i + 1 << endl;
-
-        MatrixGenerator generator(citiesCount);
+        int mivValueMatrixToGenerate = config.getMinValue();
+        int maxValueMatrixToGenerate = config.getMaxValue();
+        MatrixGenerator generator(citiesCount, mivValueMatrixToGenerate,maxValueMatrixToGenerate);
 
         vector<vector<int>> distanceMatrix;
         // Jeśli generujemy losową macierz, generuj nową przy każdej iteracji

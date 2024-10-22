@@ -17,7 +17,7 @@ using namespace std;
 class MatrixGenerator {
 public:
     //konstruktor przyjmujacy rozmiar macierzy
-    MatrixGenerator(int size);
+    MatrixGenerator(int size, int minValueToGenerate, int maxValueToGenerate);
 
     //funkcja generujaca symetryczna macierz odleglosci
     vector<vector<int>> generateSymmetricMatrix();
@@ -25,11 +25,13 @@ public:
     //funkcja generujacaasymetryczna macierz odleglosci
     vector<vector<int>> generateAsymmetricMatrix();
 
+
 private:
     int size; //rozmiar macierzy(liczba miast)
-
-    //funkcja generujaca losowa odleglosc
+    int minValueToGenerate;
+    int maxValueToGenerate;
     int generateRandomDistance();
+    //funkcja generujaca losowa odleglosc
 };
 
 

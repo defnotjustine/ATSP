@@ -1,7 +1,7 @@
 # Parametry sterujące
-algorithm = 1                       # 1 - bruteForce 2 - nearestNeighbours 3 - random
-matrix_max_value = 100
-matrix_min_value = 1
+algorithm = 1
+matrix_min = 1
+matrix_max = 100
 repeat_count = 5                    # liczba powtórzeń wyszukiwania
 instance_size = 8                   # rozmiar instancji (liczba miast)
 optimal_value = 150                 # wartość optymalna (dla testów)
