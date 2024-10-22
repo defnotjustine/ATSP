@@ -78,7 +78,9 @@ void runAlgorithm(ConfigReader& config,
 
     for (int i = 0; i < iterations; ++i) {
         if(config.isProgressBar()){
+            cout<< endl;
             updateProgressBar(i + 1, iterations);
+            cout << endl;
         }
         //srand(time(0) + i);  // Dodaj 'i', aby zapewnić różnorodność w krótkim czasie
         cout << "Iteracja nr " << i + 1 << endl;
