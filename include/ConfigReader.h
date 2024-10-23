@@ -33,6 +33,7 @@ public:
     string getOutputFile() const;
     int getRepeatCount() const;
     bool isProgressBar() const;
+    int getRandCount() const;
 
 
 private:

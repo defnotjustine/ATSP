@@ -9,13 +9,14 @@
 #include <cstdlib> // Dla funkcji rand() i srand()
 #include <limits> // Dla std::numeric_limits
 #include <ctime>  // Dla inicjalizacji generatora losowego time()
+#include "ConfigReader.h"
 
 class RandomSearch {
 public:
     RandomSearch(const std::vector<std::vector<int>>& distanceMatrix);
 
     // Funkcja wykonująca algorytm losowy i zwracająca najlepszy znaleziony koszt
-    int findShortestPath();
+    int findShortestPath(int paths);
 
 private:
     std::vector<std::vector<int>> distanceMatrix; // Przechowywanie macierzy odległości

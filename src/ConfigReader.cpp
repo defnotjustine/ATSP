@@ -53,6 +53,10 @@ void ConfigReader::loadConfig() {
     int ConfigReader::getInstanceSize() const {
         return stoi(configValues.at("instance_size"));
     }
+
+    int ConfigReader::getRandCount() const {
+        return stoi(configValues.at("rand_count"));
+    }
     string ConfigReader::getInputFile() const {
         return configValues.at("input_matrix_file");
     }

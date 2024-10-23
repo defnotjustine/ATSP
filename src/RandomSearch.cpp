@@ -9,9 +9,10 @@ RandomSearch::RandomSearch(const std::vector<std::vector<int>>& distanceMatrix)
     srand(time(nullptr));
 }
 
+ConfigReader config("../config/config.txt");
+
 // Funkcja generująca i porównująca losowe ścieżki
-int paths = 5; //generujemy 5 sciezek i szukamy najkrotsza z nich
-int RandomSearch::findShortestPath() {
+int RandomSearch::findShortestPath(int paths) {
     for (int i = 0; i < paths; ++i) {
         std::vector<int> path = generateRandomPath(); // Generujemy losową ścieżkę
         int cost = calculateCost(path); // Obliczamy koszt ścieżki

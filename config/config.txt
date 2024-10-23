@@ -1,9 +1,10 @@
 # Parametry sterujące
-algorithm = 1
+algorithm = 3
 matrix_min = 1
 matrix_max = 100
+rand_count = 5
 repeat_count = 5                    # liczba powtórzeń wyszukiwania
-instance_size = 8                   # rozmiar instancji (liczba miast)
+instance_size = 6                   # rozmiar instancji (liczba miast)
 optimal_value = 150                 # wartość optymalna (dla testów)
 # czy generować losową macierz?
 generate_random_matrix = true

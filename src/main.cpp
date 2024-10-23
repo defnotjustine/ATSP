@@ -53,7 +53,7 @@ chrono::duration<double> executeAlgorithm(int algorithmType,
                                           BruteForce& bruteForce,
                                           NearestNeighbours& nearestNeighbours,
                                           RandomSearch& randomSearch,
-                                          int& shortestPath) {
+                                          int& shortestPath, int paths) {
     auto start = chrono::high_resolution_clock::now();
 
     if (algorithmType == 1) {
@@ -61,7 +61,7 @@ chrono::duration<double> executeAlgorithm(int algorithmType,
     } else if (algorithmType == 2) {
         shortestPath = nearestNeighbours.findShortestPath();
     } else if (algorithmType == 3) {
-        shortestPath = randomSearch.findShortestPath();
+        shortestPath = randomSearch.findShortestPath(paths);
     }
 
     auto end = chrono::high_resolution_clock::now();
@@ -86,6 +86,7 @@ void runAlgorithm(ConfigReader& config,
         cout << "Iteracja nr " << i + 1 << endl;
         int mivValueMatrixToGenerate = config.getMinValue();
         int maxValueMatrixToGenerate = config.getMaxValue();
+        int paths = config.getRandCount();
         MatrixGenerator generator(citiesCount, mivValueMatrixToGenerate,maxValueMatrixToGenerate);
 
         vector<vector<int>> distanceMatrix;
@@ -111,7 +112,7 @@ void runAlgorithm(ConfigReader& config,
 
         int shortestPath;
         chrono::duration<double> iterationDuration = executeAlgorithm(
-                config.algorithmType(), bruteForce, nearestNeighbours, randomSearch, shortestPath
+                config.algorithmType(), bruteForce, nearestNeighbours, randomSearch, shortestPath, paths
         );
 
         totalDuration += iterationDuration;  // Dodaj czas trwania tej iteracji do sumy
